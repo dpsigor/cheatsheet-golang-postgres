@@ -5,4 +5,6 @@
 ## Ferramentas
 
 - [DBDiagram](https://dbdiagram.io/)
-
+- [Migrate CLI](https://github.com/golang-migrate/migrate/tree/master/cmd/migrate)
+    - `migrate create -ext sql -dir db/migration -seq init_schema`
+    - Lançar manualmente nos arquivos gerados, down e up, as tarefas
