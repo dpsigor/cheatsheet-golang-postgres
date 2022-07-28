@@ -60,6 +60,7 @@ func (s *Store) TransferTx(ctx context.Context, arg TransferTxParams) (TransferT
 	var r TransferTxResult
 	err := s.execTx(ctx, func(q *Queries) error {
 		var err error
+
 		r.Transfer, err = q.CreateTransfer(ctx, CreateTransferParams{
 			FromAccountID: arg.FromAccountID,
 			ToAccountID:   arg.ToAccountID,
@@ -68,6 +69,7 @@ func (s *Store) TransferTx(ctx context.Context, arg TransferTxParams) (TransferT
 		if err != nil {
 			return err
 		}
+
 		r.FromEntry, err = q.CreateEntry(ctx, CreateEntryParams{
 			AccountID: arg.FromAccountID,
 			Amount:    -arg.Amount,
@@ -75,6 +77,7 @@ func (s *Store) TransferTx(ctx context.Context, arg TransferTxParams) (TransferT
 		if err != nil {
 			return err
 		}
+
 		r.ToEntry, err = q.CreateEntry(ctx, CreateEntryParams{
 			AccountID: arg.ToAccountID,
 			Amount:    arg.Amount,
@@ -82,7 +85,23 @@ func (s *Store) TransferTx(ctx context.Context, arg TransferTxParams) (TransferT
 		if err != nil {
 			return err
 		}
-		// TODO: update accounts' balance
+
+		r.FromAccount, err = q.AddAccountBalance(ctx, AddAccountBalanceParams{
+			ID:     arg.FromAccountID,
+			Amount: -arg.Amount,
+		})
+		if err != nil {
+			return err
+		}
+
+		r.ToAccount, err = q.AddAccountBalance(ctx, AddAccountBalanceParams{
+			ID:     arg.ToAccountID,
+			Amount: arg.Amount,
+		})
+		if err != nil {
+			return err
+		}
+
 		return nil
 	})
 	return r, err
