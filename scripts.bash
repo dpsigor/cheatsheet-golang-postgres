@@ -38,6 +38,10 @@ case $1 in
     go test -v -cover ./...
     ;;
 
+  watch)
+    find  -type f -name "*.go" | entr -r go run .
+    ;;
+
   *)
     echo "Usage:
     postgres
@@ -48,7 +52,8 @@ case $1 in
     migratedown
     sqlc
     lint
-    test"
+    test
+    watch"
     ;;
 esac
 
