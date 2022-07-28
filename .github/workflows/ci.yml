@@ -2,8 +2,10 @@ name: ci-test
 
 on:
   push:
-    branches:
-      - "main"
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+      
 
 jobs:
   test:
@@ -31,7 +33,7 @@ jobs:
       id: go
 
     - name: Check out code into the Go module directory
-      uses: actions/checkout@2
+      uses: actions/checkout@3
 
     - name: Install golang-migrate
       run: |
