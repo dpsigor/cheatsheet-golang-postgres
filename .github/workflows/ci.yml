@@ -24,22 +24,22 @@ jobs:
         --health-retries 3
 
   steps:
-    - name: Set up Go 1.x
-      uses: actions/setup-go@v2
-      with:
-        go-version: ^1.18
-      id: go
+  - name: Set up Go 1.x
+    uses: actions/setup-go@v2
+    with:
+      go-version: ^1.18
+    id: go
 
-    - name: Check out code into the Go module directory
-      uses: actions/checkout@2
+  - name: Check out code into the Go module directory
+    uses: actions/checkout@2
 
-    - name: Install golang-migrate
-      run: |
-        go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@4.15.2
-        which migrate
+  - name: Install golang-migrate
+    run: |
+      go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@4.15.2
+      which migrate
 
-    - name: Run migrations
-      run: ./scripts.bash migrateup
+  - name: Run migrations
+    run: ./scripts.bash migrateup
 
-    - name: Test
-      run: ./scripts.bash test
+  - name: Test
+    run: ./scripts.bash test
