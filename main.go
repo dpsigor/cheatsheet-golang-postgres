@@ -6,17 +6,17 @@ import (
 
 	"github.com/dpsigor/cheatsheet-golang-postgres/api"
 	db "github.com/dpsigor/cheatsheet-golang-postgres/db/sqlc"
+	"github.com/dpsigor/cheatsheet-golang-postgres/util"
 	_ "github.com/lib/pq"
 )
 
-const (
-	dbDriver      = "postgres"
-	dbSource      = "postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable"
-	serverAddress = "0.0.0.0:8080"
-)
-
 func main() {
-	conn, err := sql.Open(dbDriver, dbSource)
+	cfg, err := util.LoadConfig(".")
+	if err != nil {
+		log.Fatal("cannot load config:", err)
+	}
+
+	conn, err := sql.Open(cfg.DBDriver, cfg.DBSource)
 	if err != nil {
 		log.Fatal("cannot connect to db:", err)
 	}
@@ -24,7 +24,7 @@ func main() {
 	store := db.NewStore(conn)
 	server := api.NewServer(store)
 
-	err = server.Start(serverAddress)
+	err = server.Start(cfg.ServerAddress)
 	if err != nil {
 		log.Fatal("cannot start server:", err)
 	}
