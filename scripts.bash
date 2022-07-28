@@ -30,6 +30,14 @@ case $1 in
     sqlc generate
     ;;
 
+  lint)
+    golint ./...
+    ;;
+
+  test)
+    go test -v -cover ./...
+    ;;
+
   *)
     echo "Usage:
     postgres
@@ -38,7 +46,9 @@ case $1 in
     execdb
     migrateup
     migratedown
-    sqlc"
+    sqlc
+    lint
+    test"
     ;;
 esac
 
