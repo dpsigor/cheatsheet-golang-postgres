@@ -26,6 +26,10 @@ case $1 in
     migrate -path db/migration/ -database "postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable" -verbose down
     ;;
 
+  sqlc)
+    sqlc generate
+    ;;
+
   *)
     echo "Usage:
     postgres
@@ -33,7 +37,8 @@ case $1 in
     dropdb
     execdb
     migrateup
-    migratedown"
+    migratedown
+    sqlc"
     ;;
 esac
 
