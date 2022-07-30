@@ -41,6 +41,10 @@ case $1 in
   watch)
     find  -type f -name "*.go" | entr -r go run .
     ;;
+  
+  mock)
+    mockgen -package mockdb -destination db/mock/store.go github.com/dpsigor/cheatsheet-golang-postgres/db/sqlc Store
+    ;;
 
   *)
     echo "Usage:
@@ -53,7 +57,8 @@ case $1 in
     sqlc
     lint
     test
-    watch"
+    watch
+    mock"
     ;;
 esac
 
