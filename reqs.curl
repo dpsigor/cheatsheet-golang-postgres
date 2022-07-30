@@ -1,0 +1,10 @@
+#!/bin/bash
+
+function createAccount {
+  curl -s \
+    -XPOST \
+    -d '{ "owner": "igor", "currency": "USD" }' \
+    http://localhost:8080/accounts
+}
+
+createAccount | jq .

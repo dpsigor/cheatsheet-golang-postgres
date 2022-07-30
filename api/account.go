@@ -2,10 +2,12 @@ package api
 
 import (
 	"database/sql"
+	"fmt"
 	"net/http"
 
 	db "github.com/dpsigor/cheatsheet-golang-postgres/db/sqlc"
 	"github.com/gin-gonic/gin"
+	"github.com/lib/pq"
 )
 
 type createAccountReq struct {
@@ -27,6 +29,16 @@ func (s *Server) createAccount(ctx *gin.Context) {
 
 	account, err := s.store.CreateAccount(ctx, arg)
 	if err != nil {
+		if pgErr, ok := err.(*pq.Error); ok {
+			switch pgErr.Code.Name() {
+			case "foreign_key_violation":
+				ctx.JSON(http.StatusForbidden, errorResponse(fmt.Errorf("invalid owner")))
+				return
+			case "unique_violation":
+				ctx.JSON(http.StatusForbidden, errorResponse(fmt.Errorf("owner and currency not unique")))
+				return
+			}
+		}
 		ctx.JSON(http.StatusInternalServerError, errorResponse(err))
 		return
 	}
