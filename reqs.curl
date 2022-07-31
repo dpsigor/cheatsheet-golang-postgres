@@ -7,4 +7,12 @@ function createAccount {
     http://localhost:8080/accounts
 }
 
-createAccount | jq .
+function createUser {
+  curl -s \
+    -XPOST \
+    -d '{ "username": "doejohn2", "password": "secret", "full_name": "John Doe", "email": "john2@doe.com" }' \
+    http://localhost:8080/users
+}
+
+# createAccount | jq .
+createUser | jq .
