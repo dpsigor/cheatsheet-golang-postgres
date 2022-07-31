@@ -89,7 +89,7 @@ func TestGetAccountAPI(t *testing.T) {
 			tc.buildStubs(store)
 
 			// start test server and send request
-			server := NewServer(store)
+			server := newTestServer(t, store)
 			recorder := httptest.NewRecorder()
 			url := fmt.Sprintf("/accounts/%d", tc.accountID)
 			request, err := http.NewRequest(http.MethodGet, url, nil)
@@ -204,7 +204,7 @@ func TestCreateAccount(t *testing.T) {
 			payload := bytes.NewReader(bs)
 
 			// start test server and send request
-			server := NewServer(store)
+			server := newTestServer(t, store)
 			recorder := httptest.NewRecorder()
 			url := "/accounts"
 			request, err := http.NewRequest(http.MethodPost, url, payload)
@@ -352,7 +352,7 @@ func TestListAccount(t *testing.T) {
 			tc.buildStubs(store)
 
 			// start test server and send request
-			server := NewServer(store)
+			server := newTestServer(t, store)
 			recorder := httptest.NewRecorder()
 			u := url.URL{}
 			q := u.Query()

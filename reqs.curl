@@ -14,5 +14,13 @@ function createUser {
     http://localhost:8080/users
 }
 
+function loginUser {
+  curl -s \
+    -XPOST \
+    -d '{ "username": "doejohn2", "password": "secret" }' \
+    http://localhost:8080/users/login
+}
+
 # createAccount | jq .
-createUser | jq .
+# createUser | jq .
+loginUser | jq .
