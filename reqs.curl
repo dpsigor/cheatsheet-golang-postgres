@@ -1,8 +1,13 @@
 #!/bin/bash
 
+function authHeader {
+  echo "Authorization: Bearer $(loginUser | jq .access_token | sed 's/\"//g')"
+}
+
 function createAccount {
   curl -s \
     -XPOST \
+    -H "$(authHeader)" \
     -d '{ "owner": "igor", "currency": "USD" }' \
     http://localhost:8080/accounts
 }
@@ -23,4 +28,4 @@ function loginUser {
 
 # createAccount | jq .
 # createUser | jq .
-loginUser | jq .
+createAccount

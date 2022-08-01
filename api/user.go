@@ -87,7 +87,7 @@ type loginUserReq struct {
 }
 
 type loginUserRes struct {
-	AccessToken string  `json:"acess_token"`
+	AccessToken string  `json:"access_token"`
 	User        userRes `json:"user"`
 }
 
