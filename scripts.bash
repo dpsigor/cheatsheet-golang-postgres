@@ -3,7 +3,7 @@
 case $1 in
 
   postgres)
-    docker run --rm --name postgres14 -v $HOME/db/psql:/var/lib/postgresql/data -p 5432:5432 -e POSTGRES_PASSWORD=secret -e POSTGRES_USER=root -d postgres:14.4-alpine
+    docker run --network simplebank-network --rm --name postgres14 -v $HOME/db/psql:/var/lib/postgresql/data -p 5432:5432 -e POSTGRES_PASSWORD=secret -e POSTGRES_USER=root -d postgres:14.4-alpine
     ;;
 
   createdb)
