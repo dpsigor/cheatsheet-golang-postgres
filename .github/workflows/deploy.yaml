@@ -5,7 +5,7 @@ on:
     branches: [main]
 
 env:
-  ACR_REGISTRY: workbench.azurecr.io
+  ACR_REGISTRY: workbenchdpsigor.azurecr.io
   ACR_REPOSITORY: golangcheatsheet
 
 jobs:
