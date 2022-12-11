@@ -1,0 +1,29 @@
+name: Deploy to production
+
+on:
+  push:
+    branches: [main]
+
+env:
+  ACR_REGISTRY: workbench.azurecr.io
+  ACR_REPOSITORY: golangcheatsheet
+
+jobs:
+  build:
+    name: Build image
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Login to Azure ACR
+        uses: azure/docker-login@v1
+        with:
+          creds: "${{ secrets.AZURE_CREDENTIALS }}"
+
+      - uses: actions/checkout@v3
+
+      - name: Build, tag and deploy to Azure ACR
+        env:
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t $ACR_REGISTRY/$ACR_REPOSITORY:$IMAGE_TAG .
+          docker push $ACR_REGISTRY/$ACR_REPOSITORY:$IMAGE_TAG
